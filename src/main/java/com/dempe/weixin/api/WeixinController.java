@@ -11,7 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +30,8 @@ import java.util.List;
 public class WeixinController extends WeixinControllerSupport {
     private static final Logger log = Logger.getLogger(WeixinController.class);
     private static final String TOKEN = "myToken";
+    private static final String APPID = "wx0f6d4d24f33cc50e";
+    private static final String APPSECRET = "84e3597c5ae03e202553db8252681967";
     //设置TOKEN，用于绑定微信服务器
     @Override
     protected String getToken() {
@@ -34,7 +40,7 @@ public class WeixinController extends WeixinControllerSupport {
     //使用安全模式时设置：APPID
     @Override
     protected String getAppId() {
-        return null;
+        return APPID;
     }
     //使用安全模式时设置：密钥
     @Override
@@ -45,8 +51,8 @@ public class WeixinController extends WeixinControllerSupport {
     @Override
     protected BaseMsg handleTextMsg(TextReqMsg msg) {
         String content = msg.getContent();
-        log.debug("用户发送到服务器的内容:{}"+content);
-        return new TextMsg("服务器回复用户消息!");
+        log.info("用户发送到服务器的内容:{}"+content);
+        return new TextMsg("hello, qq");
     }
     /*1.1版本新增，重写父类方法，加入自定义微信消息处理器
      *不是必须的，上面的方法是统一处理所有的文本消息，如果业务觉复杂，上面的会显得比较乱
@@ -65,4 +71,15 @@ public class WeixinController extends WeixinControllerSupport {
         //handles.add(new MyEventHandle());
         return handles;
     }
+
+
+//    public static boolean check_signature(String signature,String timestamp, String nonce) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+//        String[] arr = new String[]{timestamp, nonce, TOKEN};
+//        Arrays.sort(arr);
+//        String s = arr[0] + arr[1] + arr[2];
+//        MessageDigest  md = MessageDigest.getInstance("SHA-1");
+//        byte[] digest = md.digest(s.getBytes("utf-8"));
+//        return signature == bytes2HexString(digest);
+//
+//    }
 }
