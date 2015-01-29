@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -70,6 +71,13 @@ public class WeixinController extends WeixinControllerSupport {
         List<EventHandle> handles = new ArrayList<EventHandle>();
         //handles.add(new MyEventHandle());
         return handles;
+    }
+
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String testController(){
+        return "hello world";
     }
 
 
